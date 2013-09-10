@@ -21,6 +21,33 @@ public class Instance{
     }
 
 
+    /** Is the process currently running? */
+    public boolean alive(){
+        // Try to read exit value. if this throws an exception then it's still alive
+        try{
+            process.exitValue();
+        }catch(IllegalThreadStateException ITSe){
+            return true;
+        }
+        return false;
+    }
+
+    /** Returns the return value from the process, or -1 if it's still running. */
+    public int exitValue(){
+        int retval = 0;
+
+        try{
+            retval = process.exitValue();
+        }catch(IllegalThreadStateException ITSe){
+            return -1;
+        }
+        return retval;
+    }
+
+    public void kill(){
+        process.destroy();
+    }
+
     public Process getProcess(){
         return process;
     }

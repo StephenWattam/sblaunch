@@ -156,8 +156,8 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
         // TODO: use Platform object to launch the exe.
 
         String input  = runTab.getInputPath();
-        String script = runTab.getOutputPath();
-        String output = runTab.getScriptPath();
+        String script = runTab.getScriptPath();
+        String output = runTab.getOutputPath();
 
 
         // Create a new instance to handle the execution
@@ -165,9 +165,9 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
             Instance instance        = pf.getInstance(input, script, output);
 
             // Create a new panel and give it an execution instance
-            /* TabPanel instancePanel   =  */
+            TabPanel instancePanel   = new InstanceTabPanel(tabs, "Scuttlebutt", instance); // TODO: nicer name
         }catch(java.io.IOException IOe){
-            new SBGUIDialog("Error!", "Failed to start scuttlebutt.");
+            new SBGUIDialog("Error!", "Failed to start scuttlebutt: " + IOe.getMessage());
         }
     }
 
