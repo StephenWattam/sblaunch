@@ -1,8 +1,12 @@
 
 package com.stephenwattam.sblaunch.platform;
 import java.lang.Process;
+import java.io.File;
 
 public class Instance{
+
+    // Working directory
+    private File wd       = null;
 
     // Input params
     private String input    = "";
@@ -12,7 +16,9 @@ public class Instance{
     // Process handle
     private Process process = null;
 
-    public Instance(String input, String script, String output, Process process){
+    public Instance(File wd, String input, String script, String output, Process process){
+        this.wd        = wd;
+
         this.input      = input;
         this.script     = script;
         this.output     = output;
@@ -46,6 +52,10 @@ public class Instance{
 
     public void kill(){
         process.destroy();
+    }
+
+    public File getWD(){
+        return wd;
     }
 
     public Process getProcess(){

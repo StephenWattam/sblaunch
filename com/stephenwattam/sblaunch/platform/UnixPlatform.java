@@ -3,9 +3,12 @@ package com.stephenwattam.sblaunch.platform;
 
 
 import java.util.*;
-
+import java.io.File;
 
 public class UnixPlatform extends Platform{
+
+    // Working directory in which to run sb instance
+    private static final File WORKING_DIRECTORY = new File(System.getProperty("java.io.tmpdir"));
 
     public Vector<Instance> instances = new Vector<Instance>();
 
@@ -28,13 +31,19 @@ public class UnixPlatform extends Platform{
         // Construct the command
         List<String> command = new ArrayList<String>();
         command.add("xterm");
-        command.add("sb");      // TODO: make this global
+        command.add("-hold");      // TODO: make this global
+        command.add("-e");      
+        command.add("sb");      
+        command.add(script);
+        command.add(input);
+        command.add(output);
         
         // Create a process creating creator
-        ProcessBuilder builder = new ProcessBuilder("xterm", "-hold", "-e", "sb", script, input, output);
+        ProcessBuilder builder = new ProcessBuilder(command);
+        builder.directory(WORKING_DIRECTORY);
 
         // Instantiate an instance
-        return new Instance(input, script, output, builder.start());
+        return new Instance(WORKING_DIRECTORY, input, script, output, builder.start());
     }
 
 }

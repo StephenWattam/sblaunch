@@ -184,7 +184,7 @@ public class InstanceTabPanel extends TabPanel implements ActionListener{
                 str = str + "<br>Still running...";
                 break;
             default:
-                str = str + "<br>Exited with code " + instance.exitValue();
+                str = str + "<br><br>Exited with code " + instance.exitValue();
                 killButton.setEnabled(false);
                 disownButton.setEnabled(false);
                 break;
