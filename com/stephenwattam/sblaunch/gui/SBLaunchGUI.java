@@ -23,11 +23,17 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
     private Vector<TabPanel>        panels          = new Vector<TabPanel>();
     private RunTabPanel              runTab          = null;
 
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 500;
+
+
+    private String version = null;
 
     /** Create a new launcher GUI and display it to the user.
      */
     public SBLaunchGUI(String version, Platform pf){
         super("Scuttlebutt Launcher v" + version);
+        this.version = version;
 
         // Store platform we're on
         this.pf = pf;
@@ -38,9 +44,9 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
 
 
         // Configure size
-        setSize(new Dimension(300, 400));
-        setPreferredSize(new Dimension(300, 400));
-        setMinimumSize(new Dimension(300, 400));
+        setSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setResizable(true);
 
 
@@ -50,7 +56,7 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
 
 
         // Set up tabs (they add themselves)
-        runTab         = new RunTabPanel(tabs, "Run SB", this);
+        runTab         = new RunTabPanel(tabs, "Run SB", this, pf);
         panels.add(runTab); 
         
         // Select the first tab
@@ -121,7 +127,7 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
         if(Ae.getActionCommand().equals("exit_all")){
             quit();
         }else if(Ae.getActionCommand().equals("about")){
-            /* helpAbout(); */
+            helpAbout();
         }else if(Ae.getActionCommand().equals("attach_all")){
             attachTabs();
         }else if(Ae.getActionCommand().equals("detach_all")){
@@ -170,6 +176,15 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
             new SBGUIDialog("Error!", "Failed to start scuttlebutt: " + IOe.getMessage());
         }
     }
+
+    // Display simple about dialog
+    private void helpAbout(){
+        JOptionPane.showMessageDialog(this, 
+                "<html>Scuttlebutt launcher <b>v " + this.version + "</b><br>by Stephen Wattam, <br>stephenwattam.com</html>", 
+                "About", 
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     private void quit(){
         // TODO: ensure nothing is still running in the platform

@@ -1,18 +1,32 @@
 
 package com.stephenwattam.sblaunch.gui;
+import com.stephenwattam.sblaunch.platform.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.filechooser.*;
 
+
 public class RunTabPanel extends TabPanel implements ActionListener{
 
-    private static final String INPUT_LABEL_TEXT    = "Input CSV";
-    private static final String OUTPUT_LABEL_TEXT   = "Output CSV";
-    private static final String SCRIPT_LABEL_TEXT   = "Script";
+    private static final String INPUT_LABEL_TEXT    = "<html><b>Input CSV</b></html>";
+    private static final String OUTPUT_LABEL_TEXT   = "<html><b>Output CSV</b></html>";
+    private static final String SCRIPT_LABEL_TEXT   = "<html><b>Script</b></html>";
     private static final String BROWSE_TEXT         = "Browse...";
-    private static final String RUN_TEXT            = "Do stuff!";
+    private static final String RUN_TEXT            = "<html><b>Make stuff go!</b></html>";
+
+    // Ruby version string
+    private static final String VERSION_TEXT   = "<html><b>Versions</b></html>";
+    private static final String RUBY_VERSION_TEXT   = "<html><font color='green'>%s</font></html>";
+    private static final String RUBY_MISSING_TEXT   = "<html><font color='red'>Ruby not installed!</font></html>";
+    private static final String SB_VERSION_TEXT     = "<html><font color='green'>%s</font></html>";
+    private static final String SB_MISSING_TEXT     = "<html><font color='red'>Scuttlebutt not installed!</font></html>";
+
+    // Version labels
+    private JLabel vLabel           = new JLabel(VERSION_TEXT);
+    private JLabel rubyVLabel       = new JLabel(RUBY_VERSION_TEXT);
+    private JLabel sbVLabel         = new JLabel(SB_VERSION_TEXT);
 
     // Three JLabels, and three input fields
     private JLabel inputLabel       = new JLabel(INPUT_LABEL_TEXT);
@@ -29,7 +43,7 @@ public class RunTabPanel extends TabPanel implements ActionListener{
     
     private JButton runButton       = new JButton(RUN_TEXT);
 
-    public RunTabPanel(JTabbedPane tabContainer, String name, ActionListener parent){
+    public RunTabPanel(JTabbedPane tabContainer, String name, ActionListener parent, Platform platform){
         super(tabContainer, name);
 
 
@@ -47,31 +61,68 @@ public class RunTabPanel extends TabPanel implements ActionListener{
         runButton.addActionListener(parent);
 
 
+        // Update version labels
+        updateVersionLabels(platform);
+
         // Configure layout
         GridBagConstraints gbc = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 
 
-		gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill   = GridBagConstraints.HORIZONTAL;
+		gbc.anchor  = GridBagConstraints.CENTER;
+        gbc.fill    = GridBagConstraints.HORIZONTAL;
         gbc.insets  = new Insets(2,2,2,2);
 		// Input label and field
-		/* gbc.gridwidth = 1; */
-		gbc.gridx = 1;
+        
+		gbc.gridwidth = 3;
+		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.ipadx = 0;
+		gbc.ipady = 10;
+		gbc.weightx = 0.75;
+        /* gbc.insets  = new Insets(10,10,0,10); */
+		this.add(vLabel,gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.ipadx = 0;
+		gbc.ipady = 10;
+		gbc.weightx = 0.75;
+        gbc.insets  = new Insets(10,10,0,10);
+		this.add(rubyVLabel,gbc);
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.ipadx = 0;
+		gbc.ipady = 10;
+		gbc.weightx = 0.75;
+        /* gbc.insets  = new Insets(10,10,0,10); */
+		this.add(sbVLabel,gbc);
+
+        /* Space */
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.ipadx = 0;
+		gbc.ipady = 10;
+		gbc.weightx = 0.75;
+        gbc.insets  = new Insets(2,2,2,2);
+		this.add(new JSeparator(JSeparator.HORIZONTAL),gbc);
+        
+        
+		gbc.gridwidth = 1;
+		gbc.gridx = 1;
+		gbc.gridy = 4;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.75;
         /* gbc.insets  = new Insets(10,10,0,10); */
 		this.add(inputLabel,gbc);
 		gbc.gridx = 1;
-		gbc.gridy = 1;
+		gbc.gridy = 5;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
         /* gbc.insets  = new Insets(0,10,10,10); */
 		this.add(inputField,gbc);
 		gbc.gridx = 2;
-		gbc.gridy = 1;
+		gbc.gridy = 5;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.25;
@@ -81,20 +132,20 @@ public class RunTabPanel extends TabPanel implements ActionListener{
 		// Script label and field
 		/* gbc.gridwidth = 1; */
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 6;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.75;
         /* gbc.insets  = new Insets(10,10,0,10); */
 		this.add(scriptLabel,gbc);
 		gbc.gridx = 1;
-		gbc.gridy = 3;
+		gbc.gridy = 7;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
         /* gbc.insets  = new Insets(0,10,10,10); */
 		this.add(scriptField,gbc);
 		gbc.gridx = 2;
-		gbc.gridy = 3;
+		gbc.gridy = 7;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.25;
@@ -104,20 +155,20 @@ public class RunTabPanel extends TabPanel implements ActionListener{
 		// Output label and field
 		/* gbc.gridwidth = 1; */
 		gbc.gridx = 1;
-		gbc.gridy = 4;
+		gbc.gridy = 8;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.75;
         /* gbc.insets  = new Insets(10,10,0,10); */
 		this.add(outputLabel,gbc);
 		gbc.gridx = 1;
-		gbc.gridy = 5;
+		gbc.gridy = 9;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
         /* gbc.insets  = new Insets(0,10,10,10); */
 		this.add(outputField,gbc);
 		gbc.gridx = 2;
-		gbc.gridy = 5;
+		gbc.gridy = 9;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.25;
@@ -125,10 +176,20 @@ public class RunTabPanel extends TabPanel implements ActionListener{
 		this.add(outputButton,gbc);
 
 
+        /* Space */
+		gbc.gridwidth = 3;
+		gbc.gridx = 0;
+		gbc.gridy = 10;
+		gbc.ipadx = 0;
+		gbc.ipady = 10;
+		gbc.weightx = 1;
+        /* gbc.insets  = new Insets(10,10,0,10); */
+		this.add(new JSeparator(JSeparator.HORIZONTAL),gbc);
+
+
         // Run button
-		gbc.gridwidth = 2;
 		gbc.gridx = 1;
-		gbc.gridy = 6;
+		gbc.gridy = 11;
 		gbc.ipadx = 0;
 		gbc.ipady = 10;
 		gbc.weightx = 0.25;
@@ -172,6 +233,29 @@ public class RunTabPanel extends TabPanel implements ActionListener{
 
         return "";
     }
+
+    // Update version lavels
+    private void updateVersionLabels(Platform platform){
+
+        // Read out ruby version
+        String rubyVersion = RUBY_MISSING_TEXT;
+        if (platform.isRubyInstalled()){
+            rubyVersion = String.format(RUBY_VERSION_TEXT, platform.getRubyVersion());
+        }
+        rubyVLabel.setText(rubyVersion);
+
+        // Read out scuttlebutt version
+        String sbVersion = SB_MISSING_TEXT;
+        if (platform.isScuttlebuttInstalled()){
+            sbVersion = String.format(RUBY_VERSION_TEXT, platform.getScuttlebuttVersion());
+        }
+        sbVLabel.setText(sbVersion);
+
+
+    }
+
+    
+    // Update version lavels}
 
     // Accessors for in, out, script paths
     public String getInputPath(){

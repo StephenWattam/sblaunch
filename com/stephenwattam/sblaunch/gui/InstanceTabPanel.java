@@ -41,7 +41,7 @@ public class InstanceTabPanel extends TabPanel implements ActionListener{
         
         // Set up JLabel
         /* statusLabel.setLineWrap(true); */
-        Font font = new Font("Monospaced", Font.BOLD, 14);
+        Font font = new Font("Monospaced", 0, 14);
         statusLabel.setFont(font);
         statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
         updateStatus();
@@ -173,18 +173,18 @@ public class InstanceTabPanel extends TabPanel implements ActionListener{
     /* Update the status monitor in the window */
     public void updateStatus(){
 
-        String str = "<html>Script: " + instance.getScript() + "<br>Input: " + instance.getInput() + "<br>Output: " + instance.getOutput();
+        String str = "<html><b>Script:</b> " + instance.getScript() + "<br><b>Input:</b> " + instance.getInput() + "<br><b>Output:</b> " + instance.getOutput();
         switch(instance.exitValue()){
             case 0:
-                str = str + "<br>Exited cleanly :-)";
+                str = str + "<br><b><font color='green'>Exited cleanly :-)</font></b>";
                 killButton.setEnabled(false);
                 disownButton.setEnabled(false);
                 break;
             case -1:
-                str = str + "<br>Still running...";
+                str = str + "<br><b>Still running...</b>";
                 break;
             default:
-                str = str + "<br><br>Exited with code " + instance.exitValue();
+                str = str + "<br><br><b><font color='red'>Exited with code " + instance.exitValue() + "</font></b>";
                 killButton.setEnabled(false);
                 disownButton.setEnabled(false);
                 break;
