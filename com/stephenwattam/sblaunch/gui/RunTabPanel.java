@@ -247,7 +247,7 @@ public class RunTabPanel extends TabPanel implements ActionListener{
         // Read out scuttlebutt version
         String sbVersion = SB_MISSING_TEXT;
         if (platform.isScuttlebuttInstalled()){
-            sbVersion = String.format(RUBY_VERSION_TEXT, platform.getScuttlebuttVersion());
+            sbVersion = String.format(SB_VERSION_TEXT, platform.getScuttlebuttVersion());
         }
         sbVLabel.setText(sbVersion);
 

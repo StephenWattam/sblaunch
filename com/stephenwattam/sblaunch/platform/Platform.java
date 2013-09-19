@@ -70,6 +70,7 @@ public abstract class Platform{
         // Run the thing
         int exitValue = -1;
         StringBuilder sb        = new StringBuilder();
+    	System.out.printf("---\nRunning %s:\n", Arrays.toString(command));
         try{
             Process proc = builder.start();
 
@@ -78,7 +79,7 @@ public abstract class Platform{
             BufferedReader br       = new BufferedReader(isr);
 
             String line;
-            /* System.out.printf("Output of running %s is:\n", Arrays.toString(command)); */
+            System.out.printf("Output of running %s is:\n", Arrays.toString(command));
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
                 sb.append(line);
@@ -88,10 +89,12 @@ public abstract class Platform{
             //Wait to get exit value
             try {
                 exitValue = proc.waitFor();
+		System.out.println("Result: " + exitValue);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         } catch(IOException IOe){
+	    System.out.println("IO Exception: " + IOe.getMessage());
             return new CommandResult(-1, "", IOe.getMessage());
         }
         return new CommandResult(exitValue, sb.toString(), "");
