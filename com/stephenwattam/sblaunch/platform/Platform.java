@@ -19,7 +19,7 @@ public abstract class Platform{
         String[] command = {"ruby", "--version"};
         CommandResult result = quickCommand(command);
 
-        return (result.getReturnValue() != -1);
+        return (result.getReturnValue() == 0);
     }
 
     // Get the ruby version string
@@ -38,7 +38,7 @@ public abstract class Platform{
         String[] command = {"sb", "--version"};
         CommandResult result = quickCommand(command);
 
-        return (result.getReturnValue() != -1);
+        return (result.getReturnValue() == 0);
     }
 
     // Get the version of the sb binary installed
@@ -52,11 +52,23 @@ public abstract class Platform{
         return result.getStdout();
     }
 
+    // Open a text file
+    public boolean openTextFile(File filename){
+        System.out.println("STUB: openTextFile in Platform");
+        return false;
+    }
+
 
     // Return an instance object to execute SB, and record in a list
     public Instance getInstance(String input, String script, String output) throws java.io.IOException{
         System.out.println("STUB: getInstance in Platform");
         return null;
+    }
+
+    // Update the scuttlebutt gem
+    public void updateScuttlebutt(){
+        System.out.println("STUB: updateScuttlebutt in Platform");
+        return;
     }
 
 

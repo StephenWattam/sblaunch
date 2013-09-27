@@ -11,7 +11,7 @@
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon></icon>
+  <icon>\\VBOXSVR\extremetomato\working\git\sblaunch\resources\images\icon.ico</icon>
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>
@@ -19,4 +19,16 @@
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
   </jre>
+  <versionInfo>
+    <fileVersion>0.0.0.1</fileVersion>
+    <txtFileVersion>0.0.1a</txtFileVersion>
+    <fileDescription>A launcher for Scuttlebutt</fileDescription>
+    <copyright>Stephen Wattam</copyright>
+    <productVersion>0.0.1.0</productVersion>
+    <txtProductVersion>0.0.1a</txtProductVersion>
+    <productName>SBLaunch</productName>
+    <companyName></companyName>
+    <internalName>SBLaunch</internalName>
+    <originalFilename>sblaunch.exe</originalFilename>
+  </versionInfo>
 </launch4jConfig>

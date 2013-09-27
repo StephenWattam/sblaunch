@@ -171,7 +171,7 @@ public class SBLaunchGUI extends JFrame implements ActionListener{
             Instance instance        = pf.getInstance(input, script, output);
 
             // Create a new panel and give it an execution instance
-            TabPanel instancePanel   = new InstanceTabPanel(tabs, "Scuttlebutt", instance); // TODO: nicer name
+            TabPanel instancePanel   = new InstanceTabPanel(tabs, "Scuttlebutt", instance, pf); // TODO: nicer name
         }catch(java.io.IOException IOe){
             new SBGUIDialog("Error!", "Failed to start scuttlebutt: " + IOe.getMessage());
         }

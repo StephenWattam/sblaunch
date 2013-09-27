@@ -7,6 +7,26 @@ import java.io.File;
 
 public class UnixPlatform extends Platform{
 
+
+    
+
+    // Open a text file
+    public boolean openTextFile(File filename){
+        String[] command = {"xdg-open", filename.getPath()};
+        CommandResult result = quickCommand(command);
+
+        return (result.getReturnValue() == 0);
+    }
+
+    // Update the scuttlebutt gem
+    public void updateScuttlebutt(){
+
+        String[] command = {"xterm", "-hold", "-e", "gem", "install", "--pre", "scuttlebutt"};
+        
+        quickCommand(command);
+    }
+
+
     // Return an instance object to execute SB, and record in a list
     public Instance getInstance(String input, String script, String output) throws java.io.IOException{
 

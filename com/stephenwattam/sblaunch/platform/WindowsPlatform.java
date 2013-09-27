@@ -14,7 +14,7 @@ public class WindowsPlatform extends Platform{
         String[] command = {"cmd", "/c", "ruby", "--version"};
         CommandResult result = quickCommand(command);
 
-        return (result.getReturnValue() != -1);
+        return (result.getReturnValue() == 0);
     }
 
     // Get the ruby version string
@@ -34,7 +34,7 @@ public class WindowsPlatform extends Platform{
         String[] command = {"cmd", "/c", "sb", "--version"};
         CommandResult result = quickCommand(command);
 
-        return (result.getReturnValue() != -1);
+        return (result.getReturnValue() == 0);
     }
 
     // Get the version of the sb binary installed
@@ -48,7 +48,21 @@ public class WindowsPlatform extends Platform{
         return result.getStdout();
     }
 
+    // Open a text file
+    public boolean openTextFile(File filename){
+        String[] command = {"notepad", filename.getPath()};
+        CommandResult result = quickCommand(command);
 
+        return (result.getReturnValue() == 0);
+    }
+
+
+    // Update the scuttlebutt gem
+    public void updateScuttlebutt(){
+        String[] command = {"cmd", "/c", "start", "cmd", "/k", "gem", "install", "--pre", "scuttlebutt"};
+        
+        quickCommand(command);
+    }
 
     // Return an instance object to execute SB, and record in a list
     public Instance getInstance(String input, String script, String output) throws java.io.IOException{
@@ -82,6 +96,7 @@ public class WindowsPlatform extends Platform{
         command.add(script);
         command.add(input);
         command.add(output);
+        command.add("h");
 
 	// Shell 1 again
         command.add("&");
